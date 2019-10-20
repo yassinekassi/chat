@@ -29,13 +29,15 @@ class Message extends Controller{
     public function getAllMessages() 
     {
 
+        require ROOT . '/App/Models/UserModel.php';
+        require ROOT . '/App/Models/UserManager.php';
         $response = [];
 
         $messages = MessageManager::findAll();
         foreach ($messages as $message)
         {
             $response[$message->getId()]['contenu'] = $message->getContenu();
-            $response[$message->getId()]['username'] = $_SESSION['username'];
+            $response[$message->getId()]['username'] = UserManager::getById($message->getUserid())->getUserName();
             $response[$message->getId()]['datetime'] = $message->getDatetime();
         }
 
